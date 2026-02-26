@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TopAdmin\SettingController;
 use App\Http\Controllers\Api\TopAdmin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,12 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::get('create', 'create')->name('create');
         Route::post('', 'store')->name('store');
         Route::get('{id}', 'show')->name('show');
+        Route::put('{id}', 'update')->name('update');
+        Route::delete('{id}', 'destroy')->name('destroy');
+    });
+    Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
     });
