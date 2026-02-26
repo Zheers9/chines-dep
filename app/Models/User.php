@@ -73,4 +73,33 @@ class User extends Authenticatable
     {
         return $this->hasMany(Register::class);
     }
+
+    public function notions()
+    {
+        return $this->belongsTo(Notion::class, 'notion_id');
+    }
+
+    // for search 
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('full_name', 'like', "%{$search}%")
+            ->orWhere('first_name', 'like', "%{$search}%")
+            ->orWhere('second_name', 'like', "%{$search}%")
+            ->orWhere('third_name', 'like', "%{$search}%")
+            ->orWhere('fourth_name', 'like', "%{$search}%")
+            ->orWhere('nation_code', 'like', "%{$search}%")
+            ->orWhere('email', 'like', "%{$search}%")
+            ->orWhere('code_id', 'like', "%{$search}%");
+    }
+
+    public function scopeFilter($query, $filter)
+    {
+        if ($filter) {
+            $query->where('role_id', $filter)
+            ->orWhere('gender', $filter)
+            ->orWhere('notion_id', $filter);
+        }
+        return $query;
+    }
+
 }

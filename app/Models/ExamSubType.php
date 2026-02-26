@@ -20,4 +20,8 @@ class ExamSubType extends Model
     {
         return $this->hasMany(ExamSubLevel::class);
     }
+    public function registers()
+    {
+        return $this->hasMany(Register::class);
+    }
 }
