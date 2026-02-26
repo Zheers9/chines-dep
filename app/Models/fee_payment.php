@@ -2,23 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class Register extends Model
+class fee_payment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'fee_id',
         'user_id',
         'exam_sub_type_id',
-        'paid_status',
-        'image',
-    ];
-
-    protected $casts = [
-        'paid_status' => 'boolean',
+        'pay',
     ];
 
     public function user()
@@ -28,6 +23,11 @@ class Register extends Model
 
     public function examSubType()
     {
-        return $this->belongsTo(ExamSubType::class);
+        return $this->belongsTo(examSubType::class);
+    }
+
+    public function fee()
+    {
+        return $this->belongsTo(fee::class);
     }
 }

@@ -10,12 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('registers', function (Blueprint $table) {
+        Schema::create('fee_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('fee_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate()->comment('fee');
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate()->comment('user');
             $table->foreignId('exam_sub_type_id')->nullable()->constrained('exam_sub_types')->nullOnDelete()->cascadeOnUpdate()->comment('exam sub type');
-            $table->boolean('paid_status')->default(false);
-            $table->string('image')->nullable()->comment('certification previce exam year after 1 level');
+            $table->string('pay')->nullable()->comment('payment');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('registers');
+        Schema::dropIfExists('fee_payments');
     }
 };

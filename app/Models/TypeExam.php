@@ -11,8 +11,8 @@ class TypeExam extends Model
     use HasFactory;
     protected $fillable = ['name'];
 
-    public function levels()
+    public function examSubTypes()
     {
-        return $this->hasMany(LevelExam::class);
+        return $this->hasMany(ExamSubType::class);
     }
 }

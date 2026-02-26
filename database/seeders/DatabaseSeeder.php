@@ -30,5 +30,10 @@ class DatabaseSeeder extends Seeder
 
         ]);
         $user->roles()->attach(1); // Assign top admin role
+
+        // Seed some associated data
+        \App\Models\Register::factory(2)->create(['user_id' => $user->id]);
+        \App\Models\fee::factory(3)->create(['user_id' => $user->id]);
+        \App\Models\fee_payment::factory(3)->create(['user_id' => $user->id]);
     }
 }

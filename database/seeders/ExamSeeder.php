@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\TypeExam;
-use App\Models\LevelExam;
+use App\Models\ExamSubType;
+use App\Models\ExamSubLevel;
 
 class ExamSeeder extends Seeder
 {
@@ -13,21 +14,22 @@ class ExamSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create "Level Exam" type
-        TypeExam::factory()->create([
-            'name' => 'Level Exam'
+        // Create "Language Exam" type
+        $langExam = TypeExam::factory()->create([
+            'name' => 'Language Exam'
         ]);
 
-        // Create "HSK" type with 6 levels
-        $hsk = TypeExam::factory()->create([
-            'name' => 'HSK'
+        // Create "HSK" subtype for Language Exam
+        $hsk = ExamSubType::factory()->create([
+            'name' => 'HSK',
+            'type_exam_id' => $langExam->id
         ]);
 
-        // Create 6 levels for HSK
+        // Create 6 sub levels for HSK
         for ($i = 1; $i <= 6; $i++) {
-            LevelExam::factory()->create([
-                'type_exam_id' => $hsk->id,
-                'level' => 'Level ' . $i
+            ExamSubLevel::factory()->create([
+                'exam_sub_type_id' => $hsk->id,
+                'name' => 'Level ' . $i
             ]);
         }
     }
