@@ -12,9 +12,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return User::with('roles:id,name')->whereHas('roles', function ($query) {
-            $query->where('name', 'top admin');
-        })->exists();
+        return true;
     }
 
     /**

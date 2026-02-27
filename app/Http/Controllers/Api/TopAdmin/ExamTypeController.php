@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\TopAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\TopAdmin\ExamType\StoreExamTypeRequest;
+use App\Http\Requests\Api\TopAdmin\ExamType\UpdateExamTypeRequest;
+use App\Models\TypeExam;
 use Illuminate\Http\Request;
 
 class ExamTypeController extends Controller
@@ -12,47 +15,31 @@ class ExamTypeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $examTypes = TypeExam::query()->select('id', 'name')->get();
+        return response()->json($examTypes);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function store(StoreExamTypeRequest $request)
+    { 
+        TypeExam::create($request->validated());
+        return response()->json([
+            'message' => 'Exam type created successfully',
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateExamTypeRequest $request, string $id)
     {
-        //
+        $examType = TypeExam::findOrFail($id);
+        $examType->update($request->validated());
+        return response()->json([
+            'message' => 'Exam type updated successfully',
+        ]);
     }
 
     /**
@@ -60,6 +47,10 @@ class ExamTypeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $examType = TypeExam::findOrFail($id);
+        $examType->delete();
+        return response()->json([
+            'message' => 'Exam type deleted successfully',
+        ]);
     }
 }

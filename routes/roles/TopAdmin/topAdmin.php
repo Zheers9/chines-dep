@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TopAdmin\ExamTypeController;
 use App\Http\Controllers\Api\TopAdmin\SettingController;
 use App\Http\Controllers\Api\TopAdmin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,12 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::put('{id}/restore', 'restore')->name('restore');
     });
     Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::post('', 'store')->name('store');
+        Route::put('{id}', 'update')->name('update');
+        Route::delete('{id}', 'destroy')->name('destroy');
+    });
+    Route::controller(ExamTypeController::class)->prefix('exam-types')->name('exam-types.')->group(function () {
         Route::get('', 'index')->name('index');
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');

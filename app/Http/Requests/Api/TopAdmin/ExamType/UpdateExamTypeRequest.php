@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\TopAdmin\Setting;
+namespace App\Http\Requests\Api\TopAdmin\ExamType;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSettingRequest extends FormRequest
+class UpdateExamTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,7 @@ class StoreSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'academic_year' => ['required', 'unique:settings,academic_year', 'string', 'regex:/^\d{4}-\d{4}$/'],
-            'active' => 'nullable|boolean',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required|date|after:start_date',
+            'name' => 'required|string|max:255',
         ];
     }
 }
