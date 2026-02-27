@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TopAdmin\ExamSubLevelController;
 use App\Http\Controllers\Api\TopAdmin\ExamTypeController;
 use App\Http\Controllers\Api\TopAdmin\FeeController;
 use App\Http\Controllers\Api\TopAdmin\NotionController;
@@ -32,6 +33,13 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
     });
     Route::controller(SubExamTypeController::class)->prefix('sub-exam-types')->name('sub-exam-types.')->group(function () {
         Route::get('', 'index')->name('index');
+        Route::post('', 'store')->name('store');
+        Route::put('{id}', 'update')->name('update');
+        Route::delete('{id}', 'destroy')->name('destroy');
+    });
+    Route::controller(ExamSubLevelController::class)->prefix('exam-sub-levels')->name('exam-sub-levels.')->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
