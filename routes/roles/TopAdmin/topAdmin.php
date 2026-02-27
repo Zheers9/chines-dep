@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
     Route::controller(FeeController::class)->prefix('fees')->name('fees.')->group(function () {
         Route::get('', 'index')->name('index');
         Route::get('create', 'create')->name('create');
+        Route::get('{id}', 'show')->name('show');
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');

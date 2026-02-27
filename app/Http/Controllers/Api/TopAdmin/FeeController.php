@@ -7,6 +7,7 @@ use App\Http\Requests\Api\TopAdmin\Fee\StoreFeeRequest;
 use App\Http\Requests\Api\TopAdmin\Fee\UpdateFeeRequest;
 use App\Models\ExamSubType;
 use App\Models\fee;
+use App\Models\Register;
 use App\Models\Setting;
 
 class FeeController extends Controller
@@ -18,6 +19,19 @@ class FeeController extends Controller
     {
         $fees = fee::query()->with('examSubType:id,name', 'setting:id,academic_year')->select('id', 'payment_amount', 'exam_sub_type_id', 'setting_id', 'payment_amount')->get();
         return response()->json($fees);
+    }
+
+    /* 
+        this function to get all registers for a specific setting
+    */
+
+    public function show(string $id)
+    {
+        $setting = Setting::query()->find($id);
+        $registers = Register::query()->where('setting_id', $setting->id)->get();
+        return response()->json([
+            'registers' => $registers,
+        ]);
     }
 
     /**
