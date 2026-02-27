@@ -19,6 +19,7 @@ class ExamSubTypeFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'type_exam_id' => \App\Models\TypeExam::factory(),
+            'is_image' => $this->faker->boolean(),
         ];
     }
 }

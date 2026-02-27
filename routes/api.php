@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\authController;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(authController::class)->group(function () {
@@ -23,6 +24,6 @@ Route::controller(authController::class)->group(function () {
 
 Route::get('test', function () {
     return response()->json([
-        'message' => 'test',
+        'message' => Setting::query()->orderby('academic_year','desc')->get(),
     ]);
 });

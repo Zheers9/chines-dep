@@ -16,7 +16,7 @@ class SubExamTypeController extends Controller
      */
     public function index()
     {
-        $subExamTypes = ExamSubType::query()->with('typeExam:id,name')->select('id', 'name','type_exam_id')->get();
+        $subExamTypes = ExamSubType::query()->with('typeExam:id,name')->select('id', 'name','type_exam_id','is_image')->get();
         return response()->json($subExamTypes);
     }
 

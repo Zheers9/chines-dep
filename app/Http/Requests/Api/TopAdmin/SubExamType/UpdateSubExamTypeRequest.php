@@ -31,6 +31,7 @@ class UpdateSubExamTypeRequest extends FormRequest
                     ->ignore($this->route('id'))
             ],
             'type_exam_id' => 'required|exists:type_exams,id',
+            'is_image' => 'required|boolean',
         ];
     }
 }

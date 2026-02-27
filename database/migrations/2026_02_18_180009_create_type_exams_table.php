@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->foreignId('type_exam_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->boolean('is_image')->default(false);
             $table->timestamps();
         });
         Schema::create('exam_sub_levels', function (Blueprint $table) {

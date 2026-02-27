@@ -22,7 +22,8 @@ class ExamSeeder extends Seeder
         // Create "HSK" subtype for Language Exam
         $hsk = ExamSubType::factory()->create([
             'name' => 'HSK',
-            'type_exam_id' => $langExam->id
+            'type_exam_id' => $langExam->id,
+            'is_image' => false,
         ]);
 
         // Create 6 sub levels for HSK

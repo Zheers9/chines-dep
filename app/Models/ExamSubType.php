@@ -9,7 +9,11 @@ class ExamSubType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type_exam_id'];
+    protected $fillable = ['name', 'type_exam_id', 'is_image'];
+
+    protected $casts = [
+        'is_image' => 'boolean',
+    ];
 
     public function typeExam()
     {

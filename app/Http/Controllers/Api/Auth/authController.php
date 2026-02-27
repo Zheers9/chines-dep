@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\LevelExam;
+use App\Models\ExamSubType; 
 use App\Models\Notion;
 use App\Models\Role;
+use App\Models\Setting;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
@@ -48,11 +49,13 @@ class authController extends Controller
             'occupation' => 'required',
             'place' => 'required',
             'nation_code' => 'required|unique:users,nation_code',
-            'level_exam_id' => 'required|exists:level_exams,id',
+            'exam_sub_type_id' => 'required|exists:exam_sub_types,id',
         ];
 
-        if ($request->level_exam_id == 1) {
-            $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,pdf|max:2048';
+        $subExamType = ExamSubType::find($request->exam_sub_type_id);
+
+        if (!$subExamType->is_image) {
+            $rules['image'] = 'nullable';
         } else {
             $rules['image'] = 'required|image|mimes:jpeg,png,jpg,pdf|max:2048';
         }
@@ -67,10 +70,13 @@ class authController extends Controller
             $image->move(public_path('images'), $imageName);
         }
 
+        $setting = Setting::query()->orderby('academic_year','desc')->first();
+
         $request->user()->update($validated);
         $request->user()->registers()->create([
-            'level_exam_id' => $validated['level_exam_id'],
+            'exam_sub_type_id' => $validated['exam_sub_type_id'],
             'image' => $imageName,
+            'setting_id' => $setting->id,
         ]);
 
         return response()->json([
@@ -81,8 +87,8 @@ class authController extends Controller
 
     public function register()
     {
-        $notions = Notion::query()->select('id', 'name')->get();
-        $levelExams = LevelExam::query()->select('id', 'name')->get();
+        $notions = Notion::query()->select('id', 'name_ar', 'name_en','name_ku')->get();
+        $levelExams = ExamSubType::query()->with('typeExam:id,name')->select('id', 'name','type_exam_id','is_image')->get();
         return response()->json([
             'notions' => $notions,
             'levelExams' => $levelExams,
@@ -130,7 +136,7 @@ class authController extends Controller
 
     public function information_user(Request $request)
     {
-        $notions = Notion::query()->select('id', 'name')->get();
+        $notions = Notion::query()->select('id', 'name_ar', 'name_en','name_ku')->get();
         $user = $request->user()->with('notion')->first();
         return response()->json([
             'user' => $user,

@@ -29,6 +29,7 @@ class StoreSubExamTypeRequest extends FormRequest
                 \Illuminate\Validation\Rule::unique('exam_sub_types', 'name')->where('type_exam_id', $this->type_exam_id)
             ],
             'type_exam_id' => 'required|exists:type_exams,id',
+            'is_image' => 'required|boolean',
         ];
     }
 }
