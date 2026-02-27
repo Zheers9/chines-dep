@@ -24,6 +24,6 @@ Route::controller(authController::class)->group(function () {
 
 Route::get('test', function () {
     return response()->json([
-        'message' => Setting::query()->orderby('academic_year','desc')->get(),
+        'message' => Setting::query()->orderby('academic_year','desc')->first(),
     ]);
 });

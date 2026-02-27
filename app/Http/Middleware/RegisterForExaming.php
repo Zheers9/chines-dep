@@ -16,13 +16,12 @@ class RegisterForExaming
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $setting = Setting::latest()->first();
-        if ($setting->active == 0 || $setting->start_date >= now() || $setting->end_date <= now()) {
-            return response()->json([
-                'message' => 'Register for exam is closed',
-            ], 403);
+        $setting = Setting::query()->orderby('academic_year','desc')->first();
+        if ($setting->active == 1 && $setting->start_date <= now() && $setting->end_date >= now()) {
+            return $next($request);
         }
-
-        return $next($request);
+        return response()->json([
+            'message' => 'Register for exam is closed',
+        ], 403);
     }
 }

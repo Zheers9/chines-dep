@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $settings = Setting::latest()->first();
+        $settings = Setting::where('academic_year', 'desc')->first();
         return response()->json([
             'settings' => $settings,
         ]);
