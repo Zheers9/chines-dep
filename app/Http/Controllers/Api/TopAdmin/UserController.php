@@ -96,4 +96,11 @@ class UserController extends Controller
         $user->delete();
         return response()->json($user);
     }
+
+    public function restore(string $id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return response()->json($user);
+    }
 }

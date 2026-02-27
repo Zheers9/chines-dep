@@ -12,6 +12,7 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::get('{id}', 'show')->name('show');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
+        Route::put('{id}/restore', 'restore')->name('restore');
     });
     Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
         Route::get('', 'index')->name('index');
