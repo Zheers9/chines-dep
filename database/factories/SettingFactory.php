@@ -17,7 +17,10 @@ class SettingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'academic_year' => $this->faker->year() . '-' . ($this->faker->year() + 1),
+            'start_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'end_date' => $this->faker->dateTimeBetween('now', '+6 months'),
+            'active' => $this->faker->boolean(),
         ];
     }
 }

@@ -17,7 +17,7 @@ class FeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'setting_id' => null,
+            'setting_id' => \App\Models\Setting::factory(),
             'exam_sub_type_id' => \App\Models\ExamSubType::factory(),
             'user_id' => \App\Models\User::factory(),
             'payment_amount' => $this->faker->randomFloat(2, 50, 500),

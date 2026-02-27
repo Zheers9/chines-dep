@@ -12,6 +12,7 @@ class Register extends Model
 
     protected $fillable = [
         'user_id',
+        'setting_id',
         'exam_sub_type_id',
         'paid_status',
         'image',
@@ -24,6 +25,11 @@ class Register extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function setting()
+    {
+        return $this->belongsTo(Setting::class);
     }
 
     public function examSubType()

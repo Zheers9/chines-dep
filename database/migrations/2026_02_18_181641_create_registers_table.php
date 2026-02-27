@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('registers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('setting_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('exam_sub_type_id')->nullable()->constrained('exam_sub_types')->nullOnDelete()->cascadeOnUpdate()->comment('exam sub type');
             $table->boolean('paid_status')->default(false);
             $table->string('image')->nullable()->comment('certification previce exam year after 1 level');

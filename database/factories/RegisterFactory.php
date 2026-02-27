@@ -18,6 +18,7 @@ class RegisterFactory extends Factory
     {
         return [
             'user_id' => \App\Models\User::factory(),
+            'setting_id' => \App\Models\Setting::factory(),
             'exam_sub_type_id' => \App\Models\ExamSubType::factory(),
             'paid_status' => $this->faker->boolean(),
             'image' => $this->faker->imageUrl(),

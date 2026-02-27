@@ -10,7 +10,7 @@ class Notion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name_en', 'name_ar', 'name_ku'];
 
     public function users()
     {

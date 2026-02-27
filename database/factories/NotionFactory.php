@@ -17,7 +17,9 @@ class NotionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->country(),
+            'name_en' => $this->faker->country(),
+            'name_ku' => $this->faker->country(),
+            'name_ar' => $this->faker->country(),
         ];
     }
 }
