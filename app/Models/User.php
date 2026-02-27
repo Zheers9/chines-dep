@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->hasMany(Register::class);
     }
 
+    public function fees()
+    {
+        return $this->hasMany(Fee::class);
+    }
+
     public function notions()
     {
         return $this->belongsTo(Notion::class, 'notion_id');
