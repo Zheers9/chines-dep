@@ -137,9 +137,11 @@ class authController extends Controller
     public function information_user(Request $request)
     {
         $notions = Notion::query()->select('id', 'name_ar', 'name_en','name_ku')->get();
+        $roles = $request->user()->roles()->get();
         $user = $request->user()->with('notion')->first();
         return response()->json([
             'user' => $user,
+            'roles' => $roles,
             'notions' => $notions,
         ]);
     }

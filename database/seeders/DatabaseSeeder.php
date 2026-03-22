@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Register::factory(2)->create(['user_id' => $user->id]);
         \App\Models\fee::factory(3)->create(['user_id' => $user->id]);
         \App\Models\fee_payment::factory(3)->create(['user_id' => $user->id]);
+        \App\Models\Post::factory(8)->create(['user_id' => $user->id]);
     }
 }

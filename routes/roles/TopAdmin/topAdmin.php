@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\TopAdmin\ExamSubLevelController;
 use App\Http\Controllers\Api\TopAdmin\ExamTypeController;
 use App\Http\Controllers\Api\TopAdmin\FeeController;
 use App\Http\Controllers\Api\TopAdmin\NotionController;
+use App\Http\Controllers\Api\TopAdmin\PostController;
 use App\Http\Controllers\Api\TopAdmin\SettingController;
 use App\Http\Controllers\Api\TopAdmin\SubExamTypeController;
 use App\Http\Controllers\Api\TopAdmin\UserController;
@@ -56,6 +57,13 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::get('', 'index')->name('index');
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
+        Route::delete('{id}', 'destroy')->name('destroy');
+    });
+    Route::controller(PostController::class)->prefix('posts')->name('posts.')->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::get('{id}', 'show')->name('show');
+        Route::post('', 'store')->name('store');
+        Route::post('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
     });
 });

@@ -83,6 +83,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Notion::class, 'notion_id');
     }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
     // for search 
     public function scopeSearch($query, $search)
