@@ -17,7 +17,6 @@ Route::controller(authController::class)->group(function () {
 
         require __DIR__ . '/roles/User/user.php';
         require __DIR__ . '/roles/TopAdmin/topAdmin.php';
-        require __DIR__ . '/roles/Register/register.php';
         require __DIR__ . '/roles/Accounting/accounting.php';
     });
 });
