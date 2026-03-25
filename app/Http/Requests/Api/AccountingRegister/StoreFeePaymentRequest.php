@@ -25,6 +25,7 @@ class StoreFeePaymentRequest extends FormRequest
             'fee_id' => 'required|exists:fees,id',
             'user_id' => 'required|exists:users,id',
             'exam_sub_type_id' => 'required|exists:exam_sub_types,id',
+            'voucher_number' => 'required|string|unique:fee_payments,voucher_number',
             'pay' => 'required',
         ];
     }

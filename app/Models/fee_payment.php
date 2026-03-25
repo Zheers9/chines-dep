@@ -13,6 +13,7 @@ class fee_payment extends Model
         'fee_id',
         'user_id',
         'exam_sub_type_id',
+        'voucher_number',
         'pay',
     ];
 

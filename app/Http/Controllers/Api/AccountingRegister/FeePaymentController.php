@@ -18,7 +18,7 @@ class FeePaymentController extends Controller
     {
         $feePayments = fee_payment::query()
         ->with('fee:id,payment_amount', 'user:id,first_name,second_name,third_name,fourth_name', 'examSubType:id,name')
-        ->select('id', 'fee_id', 'user_id', 'exam_sub_type_id', 'pay')
+        ->select('id', 'fee_id', 'user_id', 'exam_sub_type_id', 'voucher_number', 'pay')
         ->paginate(10);
         return response()->json([
             'feePayments' => $feePayments,
