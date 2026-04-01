@@ -21,7 +21,7 @@ class UserController extends Controller
         $filter = $request->input('filter');
         $show = $request->input('show');
 
-        $users = User::with('roles:id,name','notions:id,name')->search($search)
+        $users = User::with('roles:id,name','notions:id,name_en,name_ar,name_ku')->search($search)
         ->filter($filter)->orderBy('id', 'asc')->cursorPaginate($show);
 
         $usersDeactive = User::onlyTrashed()
@@ -37,7 +37,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::query()->select('id', 'name')->get();
-        $notions = Notion::query()->select('id', 'name')->get();
+        $notions = Notion::query()->select('id', 'name_en', 'name_ar', 'name_ku')->get();
 
         return response()->json([
             'roles' => $roles,
@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::with(['roles:id,name', 'registers.examSubType.typeExam','notions:id,name'])
+        $user = User::with(['roles:id,name', 'registers.examSubType.typeExam','notions:id,name_en,name_ar,name_ku'])
         ->findOrFail($id); 
        
         return response()->json($user);

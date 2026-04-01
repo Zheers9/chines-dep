@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\TopAdmin\ExamSubLevelController;
 use App\Http\Controllers\Api\TopAdmin\ExamTypeController;
 use App\Http\Controllers\Api\TopAdmin\FeeController;
 use App\Http\Controllers\Api\TopAdmin\NotionController;
+use App\Http\Controllers\Api\TopAdmin\RegisterController;
 use App\Http\Controllers\Api\TopAdmin\SettingController;
 use App\Http\Controllers\Api\TopAdmin\SubExamTypeController;
 use App\Http\Controllers\Api\TopAdmin\UserController;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
+        Route::put('{id}/toggle-active', 'toggleActive')->name('toggle-active');
     });
     Route::controller(ExamTypeController::class)->prefix('exam-types')->name('exam-types.')->group(function () {
         Route::get('', 'index')->name('index');
@@ -57,5 +59,9 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
+    });
+    Route::controller(RegisterController::class)->prefix('registers')->name('registers.')->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::put('{id}/toggle-paid', 'togglePaid')->name('toggle-paid');
     });
 });
