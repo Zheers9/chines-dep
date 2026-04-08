@@ -28,4 +28,9 @@ class ExamSubType extends Model
     {
         return $this->hasMany(Register::class);
     }
+
+    public function roadmapSteps()
+    {
+        return $this->hasMany(ExamsRoadmapStep::class, 'exam_sub_type_id')->orderBy('order');
+    }
 }
