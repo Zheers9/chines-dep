@@ -36,7 +36,7 @@ class authController extends Controller
         return response()->json([
             'message' => 'User created successfully',
             'token' => $token,
-            'user' => $user,
+            'user' => $user->load('roles'),
             'role' => $role,
         ]);
     }
@@ -121,7 +121,7 @@ class authController extends Controller
         return response()->json([
             'message' => 'User logged in successfully',
             'token' => $token,
-            'user' => $user,
+            'user' => $user->load('roles'),
         ]);
     }
 
@@ -137,8 +137,12 @@ class authController extends Controller
     public function information_user(Request $request)
     {
         $notions = Notion::query()->select('id', 'name_ar', 'name_en','name_ku')->get();
+<<<<<<< HEAD
         $roles = $request->user()->roles()->get();
         $user = $request->user()->with('notion')->first();
+=======
+        $user = $request->user()->load(['notion', 'roles']);
+>>>>>>> fe00fdff2f4ade44a7d6d0b33f5d37e1d670728d
         return response()->json([
             'user' => $user,
             'roles' => $roles,

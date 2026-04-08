@@ -16,7 +16,7 @@ class SettingController extends Controller
     public function index()
     {
         $settings = Setting::query()
-        ->select('academic_year','active','start_date','end_date')->orderBy('id','desc')
+        ->select('id', 'academic_year', 'active', 'start_date', 'end_date')->orderBy('id', 'desc')
         ->cursorPaginate(10);
         return response()->json([
             'status' => true,
@@ -61,6 +61,30 @@ class SettingController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Setting deleted successfully',
+        ]);
+    }
+
+    /**
+     * Toggle the active status of a setting.
+     */
+    public function toggleActive($id)
+    {
+        $setting = Setting::findOrFail($id);
+        
+        // If we are activating this one, deactivate all others first
+        if (!$setting->active) {
+            Setting::query()->where('id', '!=', $id)->update(['active' => false]);
+            $setting->active = true;
+        } else {
+            $setting->active = false;
+        }
+
+        $setting->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully',
+            'active' => $setting->active
         ]);
     }
 }
