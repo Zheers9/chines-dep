@@ -11,6 +11,7 @@ class ExamsSection extends Model
         'title',
         'type',
         'marks',
+        'passage',
         'order'
     ];
 

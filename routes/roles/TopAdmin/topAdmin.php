@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::delete('steps/{id}', 'deleteStep')->name('delete-step');
         Route::post('steps/{step_id}/resources', 'storeResources')->name('store-resources');
         Route::post('steps/{step_id}/questions', 'storeQuestion')->name('store-question');
+        Route::post('steps/{step_id}/questions/analyze-word', 'analyzeWord');
+        Route::post('steps/{step_id}/questions/store-analyzed', 'storeAnalyzed');
         Route::post('questions/{id}', 'updateQuestion');
         Route::delete('questions/{id}', 'deleteQuestion')->name('delete-question');
         Route::delete('files/{file_id}', 'deleteStepFile')->name('delete-file');

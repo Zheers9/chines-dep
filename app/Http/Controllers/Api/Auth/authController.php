@@ -8,7 +8,7 @@ use App\Models\Notion;
 use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class authController extends Controller
