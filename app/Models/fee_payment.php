@@ -13,8 +13,16 @@ class fee_payment extends Model
         'fee_id',
         'user_id',
         'exam_sub_type_id',
+        'register_id',
         'pay',
+        'voucher_num',
+        'comment',
     ];
+
+    public function register()
+    {
+        return $this->belongsTo(Register::class);
+    }
 
     public function user()
     {

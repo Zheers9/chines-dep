@@ -14,13 +14,18 @@ class Register extends Model
         'user_id',
         'setting_id',
         'exam_sub_type_id',
-        'paid_status',
+        'is_accepted',
         'image',
     ];
 
     protected $casts = [
-        'paid_status' => 'boolean',
+        'is_accepted' => 'boolean',
     ];
+
+    public function payments()
+    {
+        return $this->hasMany(fee_payment::class, 'register_id');
+    }
 
     public function user()
     {

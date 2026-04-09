@@ -15,6 +15,7 @@ class RegisterController extends Controller
     {
         $search     = $request->input('search');
         $setting_id = $request->input('setting_id');
+        $is_accepted = $request->input('is_accepted');
         $paid       = $request->input('paid');
         $show       = $request->input('show', 20);
 
@@ -23,6 +24,7 @@ class RegisterController extends Controller
             'setting:id,academic_year',
             'examSubType:id,name,type_exam_id',
             'examSubType.typeExam:id,name',
+            'payments'
         ])
         ->when($search, function ($q) use ($search) {
             $q->whereHas('user', fn($u) =>
@@ -33,7 +35,14 @@ class RegisterController extends Controller
             );
         })
         ->when($setting_id, fn($q) => $q->where('setting_id', $setting_id))
-        ->when(!is_null($paid), fn($q) => $q->where('paid_status', filter_var($paid, FILTER_VALIDATE_BOOLEAN)))
+        ->when(!is_null($is_accepted), fn($q) => $q->where('is_accepted', filter_var($is_accepted, FILTER_VALIDATE_BOOLEAN)))
+        ->when(!is_null($paid), function($q) use ($paid) {
+            if (filter_var($paid, FILTER_VALIDATE_BOOLEAN)) {
+                $q->whereHas('payments');
+            } else {
+                $q->whereDoesntHave('payments');
+            }
+        })
         ->orderBy('id', 'desc')
         ->cursorPaginate($show);
 
@@ -44,18 +53,18 @@ class RegisterController extends Controller
     }
 
     /**
-     * Toggle the paid/confirmed status of a registration.
+     * Toggle the accepted/confirmed status of a registration.
      */
-    public function togglePaid(string $id)
+    public function toggleAccepted(string $id)
     {
         $register = Register::findOrFail($id);
-        $register->paid_status = !$register->paid_status;
+        $register->is_accepted = !$register->is_accepted;
         $register->save();
 
         return response()->json([
             'status'      => true,
             'message'     => 'Registration status updated successfully',
-            'paid_status' => $register->paid_status,
+            'is_accepted' => $register->is_accepted,
         ]);
     }
 }

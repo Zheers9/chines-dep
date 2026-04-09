@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\TopAdmin\UserController;
 use App\Http\Controllers\Api\TopAdmin\AdminAboutController;
 use App\Http\Controllers\Api\TopAdmin\AdminProgramController;
 use App\Http\Controllers\Api\TopAdmin\AdminStaffMemberController;
+use App\Http\Controllers\Api\TopAdmin\FeePaymentController;
+use App\Http\Controllers\Api\TopAdmin\AdminHskScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->group(function () {
@@ -28,6 +30,7 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::post('steps/{step_id}/questions/analyze-word', 'analyzeWord');
         Route::post('steps/{step_id}/questions/store-analyzed', 'storeAnalyzed');
         Route::post('questions/{id}', 'updateQuestion');
+        Route::put('questions/{id}', 'updateQuestion');
         Route::delete('questions/{id}', 'deleteQuestion')->name('delete-question');
         Route::delete('files/{file_id}', 'deleteStepFile')->name('delete-file');
         
@@ -96,7 +99,7 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
 
     Route::controller(RegisterController::class)->prefix('registers')->name('registers.')->group(function () {
         Route::get('', 'index')->name('index');
-        Route::put('{id}/toggle-paid', 'togglePaid')->name('toggle-paid');
+        Route::put('{id}/toggle-accepted', 'toggleAccepted')->name('toggle-accepted');
     });
 
     // Announcements
@@ -132,5 +135,21 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::post('{id}', 'update');
         Route::delete('{id}', 'destroy');
         Route::delete('gallery/{id}', 'destroyGalleryImage');
+    });
+
+    // Fee Payments
+    Route::controller(FeePaymentController::class)->prefix('fee-payments')->group(function () {
+        Route::get('', 'index');
+        Route::post('', 'store');
+        Route::put('{id}/toggle-paid', 'togglePaid');
+        Route::delete('{id}', 'destroy');
+    });
+
+    // HSK Schedules CRUD
+    Route::controller(AdminHskScheduleController::class)->prefix('hsk-schedules')->name('hsk-schedules.')->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::post('', 'store')->name('store');
+        Route::put('{id}', 'update')->name('update');
+        Route::delete('{id}', 'destroy')->name('destroy');
     });
 });

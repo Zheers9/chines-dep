@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\TopAdmin\AnnouncementController;
 use App\Http\Controllers\Api\TopAdmin\AdminAboutController;
 use App\Http\Controllers\Api\TopAdmin\AdminProgramController;
 use App\Http\Controllers\Api\TopAdmin\AdminStaffMemberController;
+use App\Http\Controllers\Api\HskController;
 
 Route::controller(authController::class)->group(function () {
     Route::post('signUp', 'signUp');
@@ -38,3 +39,11 @@ Route::get('about', [AdminAboutController::class, 'index']);
 Route::get('programs', [AdminProgramController::class, 'index']);
 Route::get('staff', [AdminStaffMemberController::class, 'index']);
 Route::get('announcements/{id}', [AnnouncementController::class, 'show']);
+
+// HSK Public Info
+Route::controller(HskController::class)->prefix('hsk-info')->group(function () {
+    Route::get('', 'getInfo');
+    Route::get('roadmap/{sub_type_id}', 'getRoadmap');
+    Route::get('step/{id}', 'getStep');
+    Route::post('step/{id}/complete', 'completeStep')->middleware('auth:sanctum');
+});
