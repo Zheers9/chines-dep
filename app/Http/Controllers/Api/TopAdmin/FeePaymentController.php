@@ -15,6 +15,7 @@ class FeePaymentController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $exam_sub_type_id = $request->input('exam_sub_type_id');
         $show   = $request->input('show', 20);
 
         $payments = fee_payment::with([
@@ -30,6 +31,7 @@ class FeePaymentController extends Controller
                   ->orWhere('email', 'like', "%{$search}%")
             )->orWhere('voucher_num', 'like', "%{$search}%");
         })
+        ->when($exam_sub_type_id, fn($q) => $q->where('exam_sub_type_id', $exam_sub_type_id))
         ->orderBy('id', 'desc')
         ->paginate($show);
 

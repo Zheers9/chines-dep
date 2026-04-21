@@ -17,10 +17,11 @@ class RegisterController extends Controller
         $setting_id = $request->input('setting_id');
         $is_accepted = $request->input('is_accepted');
         $paid       = $request->input('paid');
+        $exam_sub_type_id = $request->input('exam_sub_type_id');
         $show       = $request->input('show', 20);
 
         $registers = Register::with([
-            'user:id,full_name,email,nation_code,code_id',
+            'user',
             'setting:id,academic_year',
             'examSubType:id,name,type_exam_id',
             'examSubType.typeExam:id,name',
@@ -43,6 +44,7 @@ class RegisterController extends Controller
                 $q->whereDoesntHave('payments');
             }
         })
+        ->when($exam_sub_type_id, fn($q) => $q->where('exam_sub_type_id', $exam_sub_type_id))
         ->orderBy('id', 'desc')
         ->cursorPaginate($show);
 
