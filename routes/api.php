@@ -10,8 +10,9 @@ use App\Http\Controllers\Api\TopAdmin\AdminStaffMemberController;
 use App\Http\Controllers\Api\HskController;
 
 Route::controller(authController::class)->group(function () {
+
     Route::post('signUp', 'signUp');
-    Route::post('login', 'login');
+    Route::post('login', 'login')->middleware('guest');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', 'logout');
@@ -25,12 +26,6 @@ Route::controller(authController::class)->group(function () {
         require __DIR__ . '/roles/Register/register.php';
         require __DIR__ . '/roles/Accounting/accounting.php';
     });
-});
-
-Route::get('test', function () {
-    return response()->json([
-        'message' => Setting::query()->orderby('academic_year','desc')->first(),
-    ]);
 });
 
 // Public Announcements
