@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\TopAdmin\AdminProgramController;
 use App\Http\Controllers\Api\TopAdmin\AdminStaffMemberController;
 use App\Http\Controllers\Api\TopAdmin\FeePaymentController;
 use App\Http\Controllers\Api\TopAdmin\AdminHskScheduleController;
+use App\Http\Controllers\Api\TopAdmin\SliderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->group(function () {
@@ -100,6 +101,7 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
     Route::controller(RegisterController::class)->prefix('registers')->name('registers.')->group(function () {
         Route::get('', 'index')->name('index');
         Route::put('{id}/toggle-accepted', 'toggleAccepted')->name('toggle-accepted');
+        Route::delete('{id}', 'destroy')->name('destroy');
     });
 
     // Announcements
@@ -121,20 +123,21 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
 
     // Programs & Courses
     Route::controller(AdminProgramController::class)->prefix('programs')->group(function () {
+        Route::get('', 'index');
+        Route::post('courses', 'storeCourse');
+        Route::post('courses/{id}', 'updateCourse');
+        Route::delete('courses/{id}', 'deleteCourse');
         Route::post('', 'store');
         Route::post('{id}', 'update');
         Route::delete('{id}', 'destroy');
-        Route::post('courses', 'storeCourse');
-        Route::post('courses/{id}', 'updateCourse');
-        Route::delete('courses/{id}', 'destroyCourse');
     });
 
     // Staff & Lecturers
     Route::controller(AdminStaffMemberController::class)->prefix('staff')->group(function () {
         Route::post('', 'store');
+        Route::delete('gallery/{id}', 'destroyGalleryImage');
         Route::post('{id}', 'update');
         Route::delete('{id}', 'destroy');
-        Route::delete('gallery/{id}', 'destroyGalleryImage');
     });
 
     // Fee Payments
@@ -151,5 +154,13 @@ Route::middleware('auth:sanctum')->prefix('top-admin')->name('top-admin.')->grou
         Route::post('', 'store')->name('store');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
+    });
+
+    // Sliders
+    Route::controller(SliderController::class)->prefix('sliders')->group(function () {
+        Route::get('', 'index');
+        Route::post('', 'store');
+        Route::post('{id}', 'update'); // Handle multipart updates
+        Route::delete('{id}', 'destroy');
     });
 });

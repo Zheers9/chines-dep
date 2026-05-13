@@ -39,7 +39,7 @@ class AdminProgramController extends Controller
         return response()->json($program);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         Program::findOrFail($id)->delete();
         return response()->json(['message' => 'Deleted']);

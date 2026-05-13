@@ -22,6 +22,14 @@ class Register extends Model
         'is_accepted' => 'boolean',
     ];
 
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) return null;
+        return asset('storage/images/' . $this->image);
+    }
+
     public function payments()
     {
         return $this->hasMany(fee_payment::class, 'register_id');

@@ -21,12 +21,17 @@ Route::controller(authController::class)->group(function () {
         Route::get('register', 'register');
         Route::post('registerForExam', 'registerForExam')->middleware('register_for_examing');
 
+        Route::get('student/dashboard', [\App\Http\Controllers\Api\Student\StudentDashboardController::class, 'index']);
+
         require __DIR__ . '/roles/User/user.php';
         require __DIR__ . '/roles/TopAdmin/topAdmin.php';
         require __DIR__ . '/roles/Register/register.php';
         require __DIR__ . '/roles/Accounting/accounting.php';
     });
 });
+
+// Public Slider
+Route::get('sliders', [\App\Http\Controllers\Api\TopAdmin\SliderController::class, 'index']);
 
 // Public Announcements
 Route::get('announcements', [AnnouncementController::class, 'index']);

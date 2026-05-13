@@ -44,7 +44,7 @@ class FeePaymentController extends Controller
     /**
      * Store a newly created fee payment.
      */
-    public function store(Request $request)
+    public function store(Request $request, \App\Services\MailjetService $mailService)
     {
         $data = $request->validate([
             'register_id' => 'required|exists:registers,id',
@@ -53,7 +53,7 @@ class FeePaymentController extends Controller
             'comment'     => 'nullable|string',
         ]);
 
-        $register = Register::findOrFail($data['register_id']);
+        $register = Register::with('user', 'examSubType')->findOrFail($data['register_id']);
         
         $payment = fee_payment::create([
             'register_id'      => $register->id,
@@ -63,6 +63,9 @@ class FeePaymentController extends Controller
             'voucher_num'      => $data['voucher_num'],
             'comment'          => $data['comment'],
         ]);
+
+        // Send payment confirmation email
+        $mailService->sendPaymentConfirmation($register->user, $payment);
 
         return response()->json([
             'status'  => true,

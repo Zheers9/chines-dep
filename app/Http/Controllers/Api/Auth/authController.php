@@ -45,6 +45,7 @@ class authController extends Controller
     {
         $rules = [
             'notion_id' => 'required|exists:notions,id',
+            'setting_id' => 'nullable|exists:settings,id',
             'specialization' => 'required',
             'occupation' => 'required',
             'place' => 'required',
@@ -67,16 +68,20 @@ class authController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $image->storeAs('images', $imageName, 'public');
         }
 
-        $setting = Setting::query()->orderby('academic_year','desc')->first();
+        $settingId = $request->setting_id;
+        if (!$settingId) {
+            $latestSetting = Setting::query()->orderby('academic_year','desc')->first();
+            $settingId = $latestSetting ? $latestSetting->id : null;
+        }
 
         $request->user()->update($validated);
         $request->user()->registers()->create([
             'exam_sub_type_id' => $validated['exam_sub_type_id'],
             'image' => $imageName,
-            'setting_id' => $setting->id,
+            'setting_id' => $settingId,
         ]);
 
         return response()->json([
@@ -89,9 +94,12 @@ class authController extends Controller
     {
         $notions = Notion::query()->select('id', 'name_ar', 'name_en','name_ku')->get();
         $levelExams = ExamSubType::query()->with('typeExam:id,name')->select('id', 'name','type_exam_id','is_image')->get();
+        $settings = Setting::query()->select('id', 'academic_year', 'active')->orderBy('academic_year', 'desc')->get();
+        
         return response()->json([
             'notions' => $notions,
             'levelExams' => $levelExams,
+            'settings' => $settings,
         ]);
     }
 

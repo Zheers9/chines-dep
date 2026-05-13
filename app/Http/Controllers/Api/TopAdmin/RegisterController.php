@@ -57,16 +57,51 @@ class RegisterController extends Controller
     /**
      * Toggle the accepted/confirmed status of a registration.
      */
-    public function toggleAccepted(string $id)
+    public function toggleAccepted(string $id, \App\Services\MailjetService $mailService)
     {
-        $register = Register::findOrFail($id);
+        $register = Register::with('user', 'examSubType')->findOrFail($id);
         $register->is_accepted = !$register->is_accepted;
         $register->save();
+
+        $emailResult = [
+            'sent' => false,
+            'message' => 'Email not triggered (Application rejected)'
+        ];
+
+        if ($register->is_accepted) {
+            try {
+                $result = $mailService->sendRegistrationAccepted($register->user, $register);
+                $emailResult = [
+                    'sent' => $result['success'] ?? false,
+                    'details' => $result
+                ];
+            } catch (\Exception $e) {
+                $emailResult = [
+                    'sent' => false,
+                    'error' => $e->getMessage()
+                ];
+            }
+        }
 
         return response()->json([
             'status'      => true,
             'message'     => 'Registration status updated successfully',
             'is_accepted' => $register->is_accepted,
+            'mail_status' => $emailResult
+        ]);
+    }
+
+    /**
+     * Remove the specified registration from storage.
+     */
+    public function destroy(string $id)
+    {
+        $register = Register::findOrFail($id);
+        $register->delete();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Registration deleted successfully',
         ]);
     }
 }

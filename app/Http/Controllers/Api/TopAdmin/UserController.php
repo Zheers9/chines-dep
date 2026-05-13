@@ -31,6 +31,7 @@ class UserController extends Controller
         return response()->json([
             'users' => $users,
             'users_deactive' => $usersDeactive,
+            'total_count' => User::count(),
         ]);
     }
 
